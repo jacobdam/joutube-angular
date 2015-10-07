@@ -64,6 +64,14 @@ module.exports = function (grunt) {
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      includeSource: {
+        // Watch for added and deleted scripts to update index.html
+        files: '<%= yeoman.app %>/scripts/**/*.js',
+        tasks: ['includeSource'],
+          options: {
+              event: ['added', 'deleted']
+          }
       }
     },
 
@@ -433,6 +441,20 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+
+    includeSource: {
+      options: {
+        basePath: '<%= yeoman.app %>',
+        baseUrl: '',
+        ordering: 'top-down'
+      },
+
+      app: {
+        files: {
+          '<%= yeoman.app %>/index.html': '<%= yeoman.app %>/index.html'
+        }
+      }
     }
   });
 
@@ -445,6 +467,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'includeSource',
       'concurrent:server',
       'autoprefixer:server',
       'connect:livereload',
@@ -469,6 +492,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'wiredep',
+    'includeSource',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
