@@ -12,6 +12,7 @@ angular
   .module('jouTubeApp', [
     'ngAnimate',
     'ngAria',
+    'ngMaterial',
     'ngCookies',
     'ngMessages',
     'ngResource',
