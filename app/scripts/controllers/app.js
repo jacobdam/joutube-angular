@@ -8,8 +8,9 @@
  * Controller of the jouTubeApp
  */
 angular.module('jouTubeApp')
-  .controller('AppCtrl', function ($scope, $mdSidenav, $state) {
-    $scope.toggleSidenav = function(menuId) {
+  .controller('AppCtrl', function ($scope, $mdSidenav, $state, YouTube) {
+    var ctrl = this;
+    function toggleSidenav(menuId) {
       $mdSidenav(menuId).toggle();
     };
 
@@ -17,5 +18,14 @@ angular.module('jouTubeApp')
       $state.go(state, params, options);
     }
 
-    this.navigateTo = navigateTo;
+    var startLoadingBestChannels = function() {
+      YouTube.getNavBestChannels().then(function(result) {
+        ctrl.bestChannels = result;
+      });
+    };
+
+    this.navigateTo     = navigateTo;
+    this.toggleSidenav  = toggleSidenav;
+
+    startLoadingBestChannels();
   });

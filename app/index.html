@@ -19,7 +19,7 @@
     <!-- endbuild -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   </head>
-  <body ng-app="jouTubeApp" layout="column" ng-controller="AppCtrl as app">
+  <body layout="column" ng-controller="AppCtrl as app">
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -42,6 +42,11 @@
 
           <md-subheader>BEST OF YOUTUBE</md-subheader>
           <md-divider></md-divider>
+          <md-list-item ng-repeat="channel in app.bestChannels track by channel.id"
+            ng-click="app.navigateTo('channels.show', { id: channel.id })">
+            <img class="md-avatar" ng-src="{{channel.snippet.thumbnails.default.url}}">
+            <p>{{channel.snippet.title}}</p>
+          </md-list-item>
         </md-list>
       </md-sidenav>
       <div layout="column" flex id="content">
@@ -51,17 +56,6 @@
       </div>
     </div>
 
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
-       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
-       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
-       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
-    </script>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -87,7 +81,10 @@
     <script src="scripts/controllers/app.js"></script>
     <script src="scripts/controllers/home.js"></script>
     <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/services/youtube.js"></script>
     <!-- /include -->
     <!-- endbuild -->
-</body>
+
+    <script src="https://apis.google.com/js/client.js?onload=handleGAPILoad"></script>
+  </body>
 </html>
